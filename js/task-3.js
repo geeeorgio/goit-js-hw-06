@@ -1,22 +1,46 @@
-// * Задача 3.
-// Функція checkForSpam(message) приймає рядок (параметр message), перевіряє його на вміст заборонених слів
-// spam і sale, і повертає результат перевірки.
-// Слова в рядку параметра message можуть бути в довільному регістрі, наприклад SPAM або sAlE.
-// Доповни код функції таким чином, що:
-// Якщо знайдено заборонене слово (spam або sale), то функція повертає буль true
-// Якщо в рядку відсутні заборонені слова, функція повертає буль false
+// * Задача 3. Конструктор рядків
+// Напиши клас StringBuilder, який приймає один параметр initialValue — довільний рядок,
+// який записується у приватну властивість value об'єкта, що створюється.
+// Оголоси наступні методи класу:
+// getValue() — повертає поточне значення приватної властивості value.
+// padEnd(str) — отримує параметр str (рядок) і додає його в кінець значення приватної властивості value об'єкта,
+// який викликає цей метод.
+// padStart(str) — отримує параметр str (рядок) і додає його на початок значення приватної властивості value об'єкта,
+// який викликає цей метод.
+// padBoth(str) — отримує параметр str (рядок) і додає його на початок і в кінець
+// значення приватної властивості value об'єкта, який викликає цей метод.
 
-function checkForSpam(message) {
-  const lowerCaseMessage = message.toLowerCase();
-  return lowerCaseMessage.includes('sale') || lowerCaseMessage.includes('spam');
+class StringBuilder {
+  #value;
+
+  constructor(initialValue) {
+    this.#value = initialValue;
+  }
+
+  getValue() {
+    return this.#value;
+  }
+
+  padEnd(str) {
+    this.#value = this.#value + str;
+  }
+
+  padStart(str) {
+    this.#value = str + this.#value;
+  }
+
+  padBoth(str) {
+    this.#value = str + this.#value + str;
+  }
 }
 
 console.group('task-3');
-console.log(checkForSpam('Latest technology news')); // false
-console.log(checkForSpam('JavaScript weekly newsletter')); // false
-console.log(checkForSpam('Get best sale offers now!')); // true
-console.log(checkForSpam('Amazing SalE, only tonight!')); // true
-console.log(checkForSpam('Trust me, this is not a spam message')); // true
-console.log(checkForSpam('Get rid of sPaM emails. Our book in on sale!')); // true
-console.log(checkForSpam('[SPAM] How to earn fast money?')); // true
+const builder = new StringBuilder('.');
+console.log(builder.getValue()); // "."
+builder.padStart('^');
+console.log(builder.getValue()); // "^."
+builder.padEnd('^');
+console.log(builder.getValue()); // "^.^"
+builder.padBoth('=');
+console.log(builder.getValue()); // "=^.^="
 console.groupEnd();

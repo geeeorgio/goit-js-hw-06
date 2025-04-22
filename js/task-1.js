@@ -1,30 +1,37 @@
-// * Задача 1.
-// Станція з продажу ремонтних дроїдів готова до запуску, залишилося написати програмне забезпечення
-// для відділу продажів. Оголоси функцію makeTransaction(quantity, pricePerDroid, customerCredits),
-// яка складає та повертає повідомлення про купівлю ремонтних дроїдів.
-// Вона оголошує три параметри, значення яких будуть задаватися під час її виклику:
-// quantity — кількість замовлених дроїдів
-// pricePerDroid — ціна одного дроїда
-// customerCredits — сума коштів на рахунку клієнта
-// Доповни функцію таким чином:
-// Оголоси змінну для зберігання загальної суми замовлення (загальна вартість усіх замовлених дроїдів) і задай їй вираз
-// розрахунку цієї суми.
-// Додай перевірку, чи зможе клієнт оплатити замовлення:
-// якщо сума до сплати перевищує кількість кредитів на рахунку клієнта, функція має повертати рядок "Insufficient funds!"
-// в іншому випадку функція має повертати рядок "You ordered <quantity> droids worth <totalPrice> credits!",
-// де <quantity> це кількість замовлених дроїдів, а <totalPrice> це їх загальна вартість.
+// * Задача 1. Акаунт користувача
+// Перед звільненням розробник зламав вихідний код управління акаунтами користувачів
+// нашого сервісу доставки їжі. Виконай рефакторинг методів об'єкта customer,
+// розставивши відсутні this під час звернення до властивостей об'єкта.
 
-function makeTransaction(quantity, pricePerDroid, customerCredits) {
-  const total = quantity * pricePerDroid;
-  return customerCredits >= total
-    ? `You ordered ${quantity} droids worth ${total} credits!`
-    : 'Insufficient funds!';
-}
+const customer = {
+  username: 'Mango',
+  balance: 24000,
+  discount: 0.1,
+  orders: ['Burger', 'Pizza', 'Salad'],
+  // Change code below this line
+  getBalance() {
+    return this.balance;
+  },
+  getDiscount() {
+    return this.discount;
+  },
+  setDiscount(value) {
+    this.discount = value;
+  },
+  getOrders() {
+    return this.orders;
+  },
+  addOrder(cost, order) {
+    this.balance -= cost - cost * this.discount;
+    this.orders.push(order);
+  },
+  // Change code above this line
+};
 
 console.group('task-1');
-console.log(makeTransaction(5, 3000, 23000)); // "You ordered 5 droids worth 15000 credits!"
-console.log(makeTransaction(3, 1000, 15000)); // "You ordered 3 droids worth 3000 credits!"
-console.log(makeTransaction(10, 5000, 8000)); // "Insufficient funds!"
-console.log(makeTransaction(8, 2000, 10000)); // "Insufficient funds!"
-console.log(makeTransaction(10, 500, 5000)); // "You ordered 10 droids worth 5000 credits!"
+customer.setDiscount(0.15);
+console.log(customer.getDiscount()); // 0.15
+customer.addOrder(5000, 'Steak');
+console.log(customer.getBalance()); // 19750
+console.log(customer.getOrders()); // ["Burger", "Pizza", "Salad", "Steak"]
 console.groupEnd();
